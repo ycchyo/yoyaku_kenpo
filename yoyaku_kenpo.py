@@ -21,7 +21,7 @@ def main():
     df = pd.read_csv(file_path, encoding='CP932', keep_default_na=False, low_memory=False)
     driver = webdriver.Chrome(ChromeDriverManager().install())
     #Activeはリンクを貼り付け
-    url = "https://protect-eu.mimecast.com/s/6XwEC3lzPhGEGZ2zHgDhCd?domain=as.its-kenpo.or.jp"
+    url = "https://hogehoge.domain=as.its-kenpo.or.jp"
     join_date = "2023-01-20"
     driver.get(url)
 
