@@ -1,16 +1,24 @@
 from selenium import webdriver
 import time
 from webdriver_manager.chrome import ChromeDriverManager
+<<<<<<< HEAD
 #import AppKit
 #import pyautogui
+=======
+import AppKit
+import pyautogui
+>>>>>>> 8f45d9377341cb36b084c1dbc6e5a787ff6be8f4
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import os
 import pandas as pd
+<<<<<<< HEAD
 import datetime
 
 now = datetime.datetime.now()
+=======
+>>>>>>> 8f45d9377341cb36b084c1dbc6e5a787ff6be8f4
 
 def resource_path(relative_path):
     try:
@@ -24,10 +32,15 @@ def main():
     df = pd.read_csv(file_path, encoding='CP932', keep_default_na=False, low_memory=False)
     driver = webdriver.Chrome(ChromeDriverManager().install())
     #Activeはリンクを貼り付け
+<<<<<<< HEAD
     # url = input("URL貼り付け\n")
     url = "https://xxxxxxxx=as.its-kenpo.or.jp"
     input_date = now.strftime("%Y-")
     join_date = f"{input_date}08-10"
+=======
+    url = "https://hogehoge.domain=as.its-kenpo.or.jp"
+    join_date = "2023-01-20"
+>>>>>>> 8f45d9377341cb36b084c1dbc6e5a787ff6be8f4
     driver.get(url)
 
     KIGOU = df.iloc[0, 1]
@@ -82,9 +95,17 @@ def main():
     except NoSuchElementException:
         pass
 
+<<<<<<< HEAD
     time.sleep(18)
+=======
+    time.sleep(25)
+>>>>>>> 8f45d9377341cb36b084c1dbc6e5a787ff6be8f4
     driver.close()
     driver.quit()
 
 if __name__ == '__main__':
+<<<<<<< HEAD
    main()
+=======
+   main()
+>>>>>>> 8f45d9377341cb36b084c1dbc6e5a787ff6be8f4
