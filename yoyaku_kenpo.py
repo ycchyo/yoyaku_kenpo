@@ -27,7 +27,7 @@ def main():
     # url = input("URL貼り付け\n")
     url = "https://xxxxxxxx=as.its-kenpo.or.jp"
     input_date = now.strftime("%Y-")
-    join_date = f"{input_date}08-09"
+    join_date = f"{input_date}08-10"
     driver.get(url)
 
     KIGOU = df.iloc[0, 1]
