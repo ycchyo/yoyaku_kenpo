@@ -104,8 +104,5 @@ def main():
     driver.quit()
 
 if __name__ == '__main__':
-<<<<<<< HEAD
    main()
-=======
-   main()
->>>>>>> 8f45d9377341cb36b084c1dbc6e5a787ff6be8f4
+
