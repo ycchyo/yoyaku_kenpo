@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 import os
 import pandas as pd
 import datetime
+import sys
 
 now = datetime.datetime.now()
 
@@ -24,9 +25,12 @@ def main():
     #Activeはリンクを貼り付け
 
     # url = input("URL貼り付け\n")
-    url = "https://xxxxxxxx=as.its-kenpo.or.jp"
+    # ここにURLリンクを貼り付け
+    url = "https://protect-eu.mimecast.com/s/8h8pC98JPFr5jhoge.jp"
+    # 現在の年を取得
     input_date = now.strftime("%Y-")
-    join_date = f"{input_date}08-10"
+    # ここに月と日を入力
+    join_date = f"{input_date}09-15"
 
     driver.get(url)
 
@@ -44,10 +48,10 @@ def main():
     NIGHT = df.iloc[11, 1]
 
     #Input Parameter
-    text = driver.find_element(By.ID, "apply_sign_no").send_keys(KIGOU)
-    text = driver.find_element(By.ID, "apply_insured_no").send_keys(BANGOU)
-    text = driver.find_element(By.ID, "apply_office_name").send_keys(JIGYOSHO)
-    text = driver.find_element(By.ID, "apply_kana_name").send_keys(DAIHYO)
+    driver.find_element(By.ID, "apply_sign_no").send_keys(KIGOU)
+    driver.find_element(By.ID, "apply_insured_no").send_keys(BANGOU)
+    driver.find_element(By.ID, "apply_office_name").send_keys(JIGYOSHO)
+    driver.find_element(By.ID, "apply_kana_name").send_keys(DAIHYO)
 
     element = driver.find_element(By.ID, "apply_year")
     Select(element).select_by_value(YEAR)
@@ -58,13 +62,13 @@ def main():
     element = driver.find_element(By.ID, "apply_day")
     Select(element).select_by_value(DAY)
 
-    text = driver.find_element(By.ID, "apply_contact_phone").send_keys(MOBILE)
-    text = driver.find_element(By.ID, "apply_postal").send_keys(POSTAL)
+    driver.find_element(By.ID, "apply_contact_phone").send_keys(MOBILE)
+    driver.find_element(By.ID, "apply_postal").send_keys(POSTAL)
 
     element = driver.find_element(By.ID, "apply_state")
     Select(element).select_by_value("13")
 
-    text = driver.find_element(By.ID, "apply_address").send_keys(ADDRESS)
+    driver.find_element(By.ID, "apply_address").send_keys(ADDRESS)
 
     try:
         element = driver.find_element(By.ID, "apply_join_time")
@@ -75,15 +79,16 @@ def main():
     element = driver.find_element(By.ID, "apply_night_count")
     Select(element).select_by_value(NIGHT)
 
-    text = driver.find_element(By.ID, "apply_stay_persons").send_keys(PERSONS)
+    driver.find_element(By.ID, "apply_stay_persons").send_keys(PERSONS)
     time.sleep(2)
-    try:
-        driver.find_element(By.XPATH, '/html/body/div/div[1]/section/form/div[2]/input').click()
-    except NoSuchElementException:
-        pass
+
+    # try:
+    #     driver.find_element(By.XPATH, '/html/body/div/div[1]/section/form/div[2]/input').click()
+    # except NoSuchElementException:
+    #     pass
 
     time.sleep(25)
-
+    # ２５秒経過したらWinを閉じる
     driver.close()
     driver.quit()
 
