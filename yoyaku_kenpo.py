@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import datetime
 import sys
+import PySimpleGUI as sg
 
 now = datetime.datetime.now()
 
@@ -21,18 +22,65 @@ def resource_path(relative_path):
 def main():
     file_path = resource_path('./userinfo.csv')
     df = pd.read_csv(file_path, encoding='CP932', keep_default_na=False, low_memory=False)
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+
     #Activeはリンクを貼り付け
 
     # url = input("URL貼り付け\n")
-    # ここにURLリンクを貼り付け
-    url = "https://protect-eu.mimecast.com/s/8h8pC98JPFr5jhoge.jp"
-    # 現在の年を取得
-    input_date = now.strftime("%Y-")
-    # ここに月と日を入力
-    join_date = f"{input_date}09-15"
+    sg.theme('TanBlue')  # Keep things interesting for your users
+    layout = [
+        [sg.Text("関東ITS健保からのURLリンクを貼り付けて\n[Submit]ボタンを押してください")],
+        [sg.Input('', enable_events=True, key='-INPUT1-', font=('Arial Bold', 20), expand_x=True,
+                  justification='left')],
+        [sg.Text("日付を入力してください (例: MM-DD)"),
+         sg.Input('', enable_events=True, key='-INPUT2-', font=('Arial Bold', 20), expand_x=True,
+                  justification='left')],
+        [sg.Button('Submit', key='-Btn-'), sg.Cancel()]
+    ]
 
-    driver.get(url)
+    window = sg.Window("URLリンク読み込み", layout, size=(350, 400), resizable=True, alpha_channel=.8)
+
+    while True:
+        event, value = window.read()  # イベントの入力を待つ
+
+        if event == '-Btn-':
+            url_input = value['-INPUT1-']
+            date_input = value['-INPUT2-']
+            try:
+                if '-' not in date_input:
+                    raise ValueError("正しい日付形式 (MM-DD) で入力してください。")
+
+                month, day = date_input.split('-')
+                month = int(month)
+                day = int(day)
+
+                if 1 <= month <= 12 and 1 <= day <= 31:
+                    break
+                else:
+                    raise ValueError("正しい日付形式 (MM-DD) 、数値で入力してください。")
+            except ValueError as e:
+                sg.popup(str(e))
+
+            # if date_input == '%m-%d':
+            #     pass
+            # else:
+            #     sg.popup("正しい日付形式 (MM-DD) で入力してください。")
+
+        elif event in (sg.WIN_CLOSED, "Cancel"):
+            window.close()
+            sys.exit(0)
+        elif event is None:
+            break
+
+    window.close()
+    # ここにURLリンクを貼り付け
+    # url = "https://protect-eu.mimecast.com/s/8h8pC98JPFr5jhoge.jp"
+    # 現在の年を取得
+    this_year = now.strftime("%Y-")
+    # ここに月と日を入力
+    join_date = f"{this_year}{date_input}"
+
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver.get(url_input)
 
     KIGOU = df.iloc[0, 1]
     BANGOU = df.iloc[1, 1]
