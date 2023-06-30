@@ -12,15 +12,23 @@ import PySimpleGUI as sg
 
 now = datetime.datetime.now()
 
+
 def resource_path(relative_path):
     try:
-        base_path = sys._MEIPASS
+        # base_path = sys._MEIPASS
+        # 実行ファイルが存在するディレクトリを取得する
+        base_path = sys.argv[0]
+        if getattr(sys, 'frozen', False):
+            # PyInstallerによって生成された実行ファイルの場合は、実行ファイルのディレクトリを使用する
+            base_path = sys.executable
+        return os.path.join(os.path.dirname(os.path.abspath(base_path)), relative_path)
+
     except Exception:
         base_path = os.path.dirname(__file__)
     return os.path.join(base_path, relative_path)
 
 def main():
-    file_path = resource_path('./userinfo.csv')
+    file_path = resource_path('userinfo.csv')
     df = pd.read_csv(file_path, encoding='CP932', keep_default_na=False, low_memory=False)
 
     #Activeはリンクを貼り付け
@@ -29,15 +37,15 @@ def main():
     sg.theme('TanBlue')  # Keep things interesting for your users
     layout = [
         [sg.Text("関東ITS健保からのURLリンクを貼り付けて\n[Submit]ボタンを押してください")],
-        [sg.Input('', enable_events=True, key='-INPUT1-', font=('Arial Bold', 20), expand_x=True,
+        [sg.Input('', enable_events=True, key='-INPUT1-', font=('Arial Bold', 8), expand_x=True,
                   justification='left')],
         [sg.Text("日付を入力してください (例: MM-DD)"),
-         sg.Input('', enable_events=True, key='-INPUT2-', font=('Arial Bold', 20), expand_x=True,
+         sg.Input('', enable_events=True, key='-INPUT2-', font=('Arial Bold', 10), expand_x=True,
                   justification='left')],
         [sg.Button('Submit', key='-Btn-'), sg.Cancel()]
     ]
 
-    window = sg.Window("URLリンク読み込み", layout, size=(350, 400), resizable=True, alpha_channel=.8)
+    window = sg.Window("URLリンク読み込み", layout, size=(550, 150), resizable=True, alpha_channel=.8)
 
     while True:
         event, value = window.read()  # イベントの入力を待つ
